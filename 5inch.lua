@@ -1,11 +1,3 @@
-----------------------------------------------------------
--- Written by Farley Farley
--- farley <at> neonsurge __dot__ com
--- From: https://github.com/AndrewFarley/Taranis-XLite-Q7-Lua-Dashboard
--- Please feel free to submit issues, feedback, etc.
-----------------------------------------------------------
-
-
 ------- GLOBALS -------
 -- The model name when it can't detect a model name from the handset
 local modelName = "Geprc"
@@ -464,24 +456,20 @@ local function getModeText()
   if mode < -512 then
     modeText = "Acro"
   elseif mode > -100 and mode < 100 then
-    modeText = "Angle"
-  elseif mode > 512 then
     modeText = "Horizon"
+  elseif mode > 512 then
+    modeText = "Angle"
   end
   return modeText
 end
 
 local function run(event)
-  
   -- Now begin drawing...
   lcd.clear()
-  
   -- Gather input from the user
   gatherInput(event)
-  
   -- Set our animation "frame"
   setAnimationIncrement()
-
   -- Check if we just armed...
   if armed > 512 then
     isArmed = 1
@@ -490,41 +478,29 @@ local function run(event)
   else
     isArmed = 0
   end
-
   -- Draw a horizontal line seperating the header
   lcd.drawLine(0, 7, 128, 7, SOLID, FORCE)
-
   -- Draw our model name centered at the top of the screen
   lcd.drawText( 64 - math.ceil((#modelName * 5) / 2),0, modelName, SMLSIZE)
-
   -- Draw our mode centered at the top of the screen just under that...
   modeText = getModeText()
   lcd.drawText( 64 - math.ceil((#modeText * 5) / 2),9, modeText, SMLSIZE)
-
   -- Draw our sexy quadcopter animated (if armed) from scratch
   drawQuadcopter(47, 16)
-  
   -- Draw our sexy voltage
   drawTransmitterVoltage(0,0, currentVoltage)
-
   -- Draw our flight timer
   drawFlightTimer(84, 34)
-  
   -- Draw RSSI
   drawRSSI(84, 8)
-  
   -- Draw Time in Top Right
   drawTime()
-  
   -- Draw Voltage bottom middle
   drawVoltageText(45,50)
-  
   -- Draw voltage battery graphic
   drawVoltageImage(3, 10)
-  
   return 0
 end
-
 
 local function init_func()
   -- Called once when model is loaded, only need to get model name once...
@@ -535,4 +511,4 @@ local function init_func()
 end
 
 
-return { run=run, init=init_func  }
+return { run = run, init = init_func}
